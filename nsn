@@ -280,3 +280,95 @@ int main() {
 
     return 0;
 }
+
+
+void hienthi(NganXep *pS){
+	while ( pS->Dinh!=SoPhanTu ){
+		printf("%d ", pS->DuLieu[pS->Dinh]);
+		xoa(pS);
+	}
+}
+
+int giatriDinh(NganXep S){
+    return S.DuLieu[S.Dinh];
+    
+}
+
+void inThaplucphan(int n) {
+    Stack S;
+    makenullStack(&S);
+    while (n>0) {
+    int du = n% 16;
+    char c = du <= 9 ? '0' + du : 'A' + du - 10;
+    push(c,&S);
+        n /= 16;
+    }
+    while (!emptyStack(S)) {
+        printf("%c", top(S));
+        pop(&S);
+    }
+}
+
+int ktRong(NganXep S){
+    return S.Dinh==SoPhanTu;
+}
+
+void chuyenHauto(char trungto[], char hauto[]) {
+    Stack S;
+    makenullStack(&S);
+    int i, k = 0;
+    char c;
+
+    for (i = 0; i < strlen(trungto); i++) {
+        c = trungto[i];
+
+        if (isalnum(c)) {
+            hauto[k++] = c;
+        } else if (c == '(') {
+            push(c, &S);
+        } else if (c == ')') {
+            while (!emptyStack(S) && top(S) != '(') {
+                hauto[k++] = top(S);
+                pop(&S);
+            }
+            pop(&S); // Loại bỏ dấu '(' khỏi ngăn xếp
+        } else if (c == '+' || c == '-' || c == '*' || c == '/') {
+            while (!emptyStack(S) && top(S) != '(' && mucUutien(c) <= mucUutien(top(S))) {
+                hauto[k++] = top(S);
+                pop(&S);
+            }
+            push(c, &S);
+        }
+    }
+
+    while (!emptyStack(S)) {
+        hauto[k++] = top(S);
+        pop(&S);
+    }
+
+    hauto[k] = '\0'; // Kết thúc chuỗi hậu tố
+}
+
+int ktDay(NganXep S){
+	return S.Dinh==0;
+}
+
+void doiNhiPhan(int n, NganXep *pS) {
+    khoitao(pS);
+    while (n > 0) {
+        
+        them(n%2, pS);
+        n /= 2;
+    }
+}
+
+void khoitao(NganXep *pS){
+	pS->Dinh=SoPhanTu;
+}
+
+void them (int x,NganXep *pS){
+	if ( pS->Dinh!=0 ){
+		pS->Dinh--;
+		pS->DuLieu[pS->Dinh]=x;
+	}
+}
