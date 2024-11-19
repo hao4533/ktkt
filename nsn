@@ -1,0 +1,282 @@
+void insertList(int x, int p, List *pL){
+    if (p >= 1 && p <= pL->Last + 1){
+        for (int i= pL->Last; i>= p ; i--){
+            pL->Elements[i] = pL->Elements[i - 1];
+        }
+        pL->Elements[p - 1] = x;
+        pL->Last++;
+    }
+    
+}
+
+void readSet(List *pL)
+{
+    makenullList(pL);
+    int n;
+    scanf("%d",&n);
+    for(int i=0; i<n; i++)
+    {
+        scanf("%d",&pL->Elements[i]);
+        if(!member(pL->Elements[i],*pL))
+        {
+            insertSet(pL->Elements[i],pL);
+        }
+    }
+}
+
+void unionSet(List L1, List L2, List *pL)
+{
+    makenullList(pL);
+    for (int i=0; i<L1.Last; i++)
+    {
+        insertSet(L1.Elements[i],pL);
+    }
+    for(int i=0; i<L2.Last; i++)
+    {
+        if(!member(L2.Elements[i],*pL))
+            insertSet(L2.Elements[i],pL);
+    }
+}
+
+void printOddNumbers(List L)
+{
+    for (int i = 0; i < L.Last; i++)
+    {
+        if (L.Elements[i] % 2 != 0)
+            printf("%d ", L.Elements[i]);
+    }
+}
+
+int locate1(int x, List L) {
+    for (int i = L.Last - 1; i >= 0; i--) { 
+        if (L.Elements[i] == x) {
+            return i + 1; 
+        }
+    }
+    return L.Last + 1; 
+}
+
+float getAvg(List L)
+{
+    float s=0;
+    for (int i=0; i<L.Last; i++)
+    {
+        s+=L.Elements[i];
+    }
+    if(L.Last==0)
+        return -10000;
+    return s/L.Last;
+}
+
+void removeAll(ElementType X, List *pL)
+{
+    while(locate(X,*pL)!=pL->Last+1)
+    {
+        int P=locate(X,*pL);
+        deleteList(P, pL);
+    }
+}
+
+int member(ElementType x, List L)
+{
+    for(int i = 0 ; i<L.Last;i++)
+    {
+        if(L.Elements[i]==x)
+        {return 1;}
+    }
+    return 0;
+}
+
+void erase(int x, List *pL)
+{
+    deleteList(locate(x,*pL),pL);
+}
+
+void insertSet(int x, List *pL)
+{
+    pL->Elements[pL->Last]=x;
+    pL->Last++;
+}
+
+int locate(int x, List L)
+{
+    int p=0;
+    for(int i=0; i<L.Last; i++)
+    {
+        if(L.Elements[i]==x)
+            return p=i+1;
+    }
+    return p=L.Last+1;
+}
+
+void copyEvenNumbers(List L1, List *L2)
+{
+    makenullList(L2);
+    for(int i=0; i<L1.Last; i++)
+    {
+        if(L1.Elements[i]%2==0)
+            insertList(L1.Elements[i],L2->Last+1,L2);
+    }
+}
+
+void printList(List L){
+	for(int i=0;i<L.Last;i++){
+		printf("%d ",L.Elements[i]);
+	}
+	printf("\n");
+}
+
+void sort(List *pL)
+{   
+    int s;
+    for(int i=0; i<pL->Last; i++)
+    {
+        for(int z=i+1;z<pL->Last;z++)
+        {
+            if(pL->Elements[i]>pL->Elements[z])
+                {
+                s = pL->Elements[z];
+                pL->Elements[z]=pL->Elements[i];
+                pL->Elements[i]=s;
+                }
+        }
+    }
+}
+
+void normalize(List *L)
+{
+    Position a, b;
+    a = 1;
+    while (a != L->Last + 1)
+    {
+        b = a + 1;
+        while (b != L->Last + 1)
+        {
+            if (L->Elements[a - 1] == L->Elements[b - 1])
+                {deleteList(b, L);}
+            else
+                {b++;}
+        }
+        a++;
+    }
+}
+
+void intersection(List L1, List L2, List *pL)
+{
+    makenullList(pL);
+    for (int i=0; i<L1.Last; i++)
+    {
+        if(member(L1.Elements[i],L2))
+            insertSet(L1.Elements[i],pL);
+    }
+}
+
+void deleteList(int p, List *pL)
+{
+    if(p<1||p>pL->Last)
+        printf("Vi tri khong hop le \n");
+    else 
+        {
+            for(int i=p-1; i<pL->Last; i++)
+            {
+                pL->Elements[i]=pL->Elements[i+1];
+            }
+            pL->Last--;
+        }
+}
+
+void difference(List L1, List L2, List *pL) {
+    makenullList(pL); // Khởi tạo danh sách kết quả rỗng
+
+    for (int i = 0; i < L1.Last; i++) { // Duyệt qua tất cả các phần tử của L1
+        if (!member(L1.Elements[i], L2)) { // Nếu phần tử không thuộc L2
+            insertSet(L1.Elements[i], pL); // Thêm vào danh sách kết quả
+        }
+    }
+}
+
+void readList(List *pL)
+{
+    makenullList(pL);
+    int n;
+    scanf("%d",&n);
+    for (int i=0; i<n; i++)
+    {
+        scanf("%d",&pL->Elements[i]);
+        insertList(pL->Elements[i],i+1,pL);
+    }   
+}
+
+void makenullList(List *pL)
+{
+    pL->Last=0;
+}
+
+float getAvg(List L)
+{
+    float s=0;
+    for (int i=0; i<L.Last; i++)
+    {
+        s+=L.Elements[i];
+    }
+    if(L.Last==0)
+        return -10000;
+    return s/L.Last;
+}
+
+
+#include <stdio.h>
+#include <string.h>
+// Định nghĩa cấu trúc SinhVien
+typedef struct {
+    char MSSV[10];
+    char HoTen[50];
+    float DiemLT;
+    float DiemTH1;
+    float DiemTH2;
+} SinhVien;
+
+// Định nghĩa cấu trúc DanhSach
+typedef struct {
+    SinhVien A[40]; // Mảng chứa tối đa 40 sinh viên
+    int n;          // Số lượng sinh viên trong danh sách
+} DanhSach;
+
+// Hàm nhập danh sách sinh viên
+void nhapDanhSach(DanhSach *L) {
+    scanf("%d", &(L->n));
+    for (int i = 0; i < L->n; i++) {
+ 
+
+        scanf("%s", L->A[i].MSSV);
+        getchar();
+
+        fgets(L->A[i].HoTen, sizeof(L->A[i].HoTen), stdin); // Nhập họ và tên
+
+        size_t len = strlen(L->A[i].HoTen);
+        if (len > 0 && L->A[i].HoTen[len - 1] == '\n') {
+            L->A[i].HoTen[len - 1] = '\0';
+        }
+        scanf("%f %f %f", &L->A[i].DiemLT, &L->A[i].DiemTH1, &L->A[i].DiemTH2); // Nhập điểm
+    }
+}
+
+// Hàm hiển thị danh sách sinh viên
+void hienThiDanhSach(DanhSach L) {
+    for (int i = 0; i < L.n; i++) {
+        printf("%s - %s - %.2f - %.2f - %.2f\n", 
+               L.A[i].MSSV, 
+               L.A[i].HoTen, 
+               L.A[i].DiemLT, 
+               L.A[i].DiemTH1, 
+               L.A[i].DiemTH2);
+    }
+}
+int main() {
+    DanhSach L;
+
+    nhapDanhSach(&L);
+    hienThiDanhSach(L);
+
+    return 0;
+}
