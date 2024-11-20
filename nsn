@@ -372,3 +372,73 @@ void them (int x,NganXep *pS){
 		pS->DuLieu[pS->Dinh]=x;
 	}
 }
+
+Cau khoitao(){
+    Cau L = (struct Node*)malloc(sizeof(struct Node));
+     L->Next = NULL;
+     return L;    
+}
+
+void chenKyTu(char c, Cau* pD) {
+    Cau newNode = (Cau)malloc(sizeof(struct Node));
+    newNode->KyTu = c;
+    newNode->Next = NULL;
+
+    if (*pD == NULL) {
+        *pD = newNode;
+    } else {
+        Cau temp = *pD;
+        while (temp->Next != NULL) {
+            temp = temp->Next;
+        }
+        temp->Next = newNode;
+    }
+}
+
+int demHoa(Cau d) {
+    int count = 0; 
+    Cau temp = d;  
+
+    while (temp != NULL) {
+        if (temp->KyTu >= 'A' && temp->KyTu <= 'Z') {
+            count++; 
+        }
+        temp = temp->Next; 
+    }
+    return count; 
+}
+
+int sotu(Cau d) {
+    int count = 0; 
+    int inWord = 0; 
+    Cau temp = d; 
+    while (temp != NULL) {
+        if (temp->KyTu != ' ') {
+            
+            if (inWord == 0) {
+                count++;
+                inWord = 1; 
+            }
+        } else {
+            inWord = 0;
+        }
+        temp = temp->Next;
+    }
+
+    return count;
+}
+
+
+Cau nhapCau() {
+    char chuoi[1000];
+    Cau d = khoitao(NULL); 
+
+    fgets(chuoi, sizeof(chuoi), stdin); 
+
+    for (int i = 0; chuoi[i] != '\0'; i++) {
+        if (chuoi[i] != '\n') {chenKyTu(chuoi[i], &d); 
+        }
+    }
+
+    return d;
+}
