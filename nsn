@@ -9,6 +9,26 @@ void insertList(int x, int p, List *pL){
     
 }
 
+void chenCuoi(struct SinhVien s, DanhSach *pL) {
+    if (pL->n < 40) {
+        pL->A[pL->n] = s; 
+        pL->n++; }
+        else
+        printf("Loi! Danh sach day!");
+    
+    
+}
+
+void xoaTai(int p,DanhSach *pL){
+    if (p>=1 && p<= pL->n ){
+        for (int i = p-1 ; i<=pL->n-1;i++){
+            pL->A[i] = pL->A[i+1];
+        }
+    }
+    pL->n --;
+    
+}
+
 void readSet(List *pL)
 {
     makenullList(pL);
@@ -601,3 +621,43 @@ Tree insertNode(Tree T, int key) {
                                     return T;
                                     
 }
+
+
+#define TRUE 1
+#define FALSE 0
+
+int member(ElementType x, Dictionary D) {
+    int i;
+    for (i = 0; i < B; i++) {
+        int index = (h(x) + i) % B; 
+        if (D[index] == Empty) {
+            return FALSE;
+        }
+        if (D[index] == x) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+void enQueue(int x, Queue *Q) {
+    if ((Q->Rear + 1) % MaxLength == Q->Front) {
+        printf("Hang day.\n");
+    } else {
+        if (Q->Front == -1) {
+            Q->Front = 0;
+        }
+        Q->Rear = (Q->Rear + 1) % MaxLength;
+        Q->Elements[Q->Rear] = x;
+    }
+}
+
+void deQueue(Queue *pQ){
+	if (!emptyQueue(*pQ)){
+		pQ->Front=pQ->Front+1;
+	if (pQ->Front>pQ->Rear)
+		makenullQueue(pQ); //Dat lai hang rong
+	}
+	else printf("Loi: Hang rong!");
+}
+
